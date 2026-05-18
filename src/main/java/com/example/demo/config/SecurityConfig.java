@@ -49,14 +49,32 @@ public class SecurityConfig {
         return config.getAuthenticationManager();  // ✅ Manage authentication
     }
 
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // ✅ Allow frontend (React)
+//        configuration.setAllowedOrigins(List.of("https://movie-hall-frontend-project.vercel.app/"));
+//        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Allowed HTTP methods
+//        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // ✅ Allowed headers
+//        configuration.setAllowCredentials(true);  // ✅ Allow authentication headers (cookies, tokens)
+//
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of("http://localhost:3000")); // ✅ Allow frontend (React)
-        configuration.setAllowedOrigins(List.of("https://movie-hall-frontend-project.vercel.app/"));
-        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS")); // ✅ Allowed HTTP methods
-        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type")); // ✅ Allowed headers
-        configuration.setAllowCredentials(true);  // ✅ Allow authentication headers (cookies, tokens)
+        
+        // ✅ Add BOTH URLs in a single list and REMOVE the trailing slash from the Vercel link
+        configuration.setAllowedOrigins(List.of(
+            "http://localhost:3000", 
+            "https://movie-hall-frontend-project.vercel.app" 
+        )); 
+        
+        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        configuration.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
